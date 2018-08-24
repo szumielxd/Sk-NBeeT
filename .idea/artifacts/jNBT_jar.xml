@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="jNBT:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/jNBT_jar</output-path>
+    <root id="archive" name="jNBT.jar">
+      <element id="module-output" name="jNBT" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/de/jaylawl/jnbt/plugin.yml" />
+    </root>
+  </artifact>
+</component>
