@@ -1,5 +1,6 @@
 main: de.jaylawl.jnbt.jNBT
 name: jNBT
-version: 0.1
+version: 0.2
 author: jaylawl
-description: NBT usages for Skript
+description: Provides NBT usages within Skript
+website: https://github.com/jaylawl/jNBT

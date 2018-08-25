@@ -4,7 +4,6 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.util.coll.CollectionUtils;
-import net.minecraft.server.v1_12_R1.NBTBase;
 import org.bukkit.event.Event;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
