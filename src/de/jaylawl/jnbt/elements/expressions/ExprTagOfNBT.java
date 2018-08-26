@@ -36,7 +36,11 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
         String n = b.getSingle(e);
         try {
             NBTTagCompound nbt = MojangsonParser.parse(n);
-            return new String[] {nbt.get(t).toString()};
+            if (nbt.get(t) != null) {
+                return new String[] {nbt.get(t).toString()};
+            } else {
+                return null;
+            }
         } catch (MojangsonParseException ex) {
             Skript.warning("NBT parse error: " + ex.getMessage());
             return null;
