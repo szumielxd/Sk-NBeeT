@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 public class ExprTagOfNBT extends SimpleExpression<String> {
 
     static {
-        Skript.registerExpression(ExprTagOfNBT.class, String.class, ExpressionType.SIMPLE,"tag %string% of %string%");
+        Skript.registerExpression(ExprTagOfNBT.class, String.class, ExpressionType.SIMPLE, "tag %string% of %string%");
     }
 
     private Expression<String> a;
@@ -34,6 +34,9 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
     protected String[] get(Event e) {
         String t = a.getSingle(e);
         String n = b.getSingle(e);
+        if (t == null || n == null) {
+            return null;
+        }
         try {
             NBTTagCompound nbt = MojangsonParser.parse(n);
             if (nbt.get(t) != null) {
