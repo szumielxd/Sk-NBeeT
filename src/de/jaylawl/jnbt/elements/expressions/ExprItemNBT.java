@@ -4,13 +4,13 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.util.coll.CollectionUtils;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.event.Event;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.MojangsonParseException;
-import net.minecraft.server.v1_12_R1.MojangsonParser;
+import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
+import net.minecraft.server.v1_13_R2.NBTTagCompound;
+import net.minecraft.server.v1_13_R2.MojangsonParser;
 
 import javax.annotation.Nullable;
 
@@ -51,7 +51,7 @@ public class ExprItemNBT extends SimplePropertyExpression<ItemStack, String> {
     public void change(Event e, Object[] delta, ChangeMode mode) {
         ItemStack i = getExpr().getSingle(e);
         if (i != null || i.getType() != Material.AIR) {
-            net.minecraft.server.v1_12_R1.ItemStack nms = CraftItemStack.asNMSCopy(i);
+            net.minecraft.server.v1_13_R2.ItemStack nms = CraftItemStack.asNMSCopy(i);
             NBTTagCompound nbt;
             switch (mode) {
                 case ADD:
@@ -63,7 +63,7 @@ public class ExprItemNBT extends SimplePropertyExpression<ItemStack, String> {
                         NBTTagCompound nbtv = MojangsonParser.parse(((String) delta[0]));
                         nbt.a(nbtv);
                         nms.setTag(nbt);
-                    } catch (MojangsonParseException ex) {
+                    } catch (CommandSyntaxException ex) {
                         Skript.warning("NBT parse error: " + ex.getMessage());
                     }
                     break;
@@ -79,7 +79,7 @@ public class ExprItemNBT extends SimplePropertyExpression<ItemStack, String> {
                 case SET:
                     try {
                         nms.setTag(MojangsonParser.parse(((String) delta[0])));
-                    } catch (MojangsonParseException ex) {
+                    } catch (CommandSyntaxException ex) {
                         Skript.warning("NBT parse error: " + ex.getMessage());
                     }
                     break;

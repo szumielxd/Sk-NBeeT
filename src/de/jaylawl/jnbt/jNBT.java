@@ -15,7 +15,7 @@ public class jNBT extends JavaPlugin {
     public void onEnable() {
         if ((Bukkit.getPluginManager().getPlugin("Skript") != null) && (Skript.isAcceptRegistrations())) {
             String nms = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-            if (nms.equals("v1_12_R1")) {
+            if (nms.equals("v1_13_R2")) {
                 getLogger().info("Compatible NMS version: " + nms);
                 instance = this;
                 addon = Skript.registerAddon(this);
@@ -28,7 +28,7 @@ public class jNBT extends JavaPlugin {
             }
             else {
                 getLogger().info("Incompatible NMS version: " + nms);
-                getLogger().info("Please use Spigot 1.12.x");
+                getLogger().info("Please use Spigot 1.13.2");
                 Bukkit.getPluginManager().disablePlugin(this);
             }
         }

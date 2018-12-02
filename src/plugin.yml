@@ -1,0 +1,6 @@
+main: de.jaylawl.jnbt.jNBT
+name: jNBT
+version: 1.0.0 [ShaneBeeFork]
+authors: [jaylawl, ShaneBee]
+description: Provides NBT usages within Skript
+website: https://github.com/ShaneBeee/jNBT

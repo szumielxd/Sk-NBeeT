@@ -1,6 +1,0 @@
-main: de.jaylawl.jnbt.jNBT
-name: jNBT
-version: 0.3.2
-author: jaylawl
-description: Provides NBT usages within Skript
-website: https://github.com/jaylawl/jNBT
