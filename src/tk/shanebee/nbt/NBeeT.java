@@ -1,4 +1,4 @@
-package de.jaylawl.jnbt;
+package tk.shanebee.nbt;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -7,9 +7,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.IOException;
 
-public class jNBT extends JavaPlugin {
+public class NBeeT extends JavaPlugin {
 
-    jNBT instance;
+    NBeeT instance;
     SkriptAddon addon;
 
     @Override
@@ -21,7 +21,7 @@ public class jNBT extends JavaPlugin {
                 instance = this;
                 addon = Skript.registerAddon(this);
                 try {
-                    addon.loadClasses("de.jaylawl.jnbt", "elements");
+                    addon.loadClasses("tk.shanebee.nbt", "elements");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

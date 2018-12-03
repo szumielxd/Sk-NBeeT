@@ -1,5 +1,8 @@
-package de.jaylawl.jnbt.elements.expressions;
+package tk.shanebee.nbt.elements.expressions;
 
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.event.Event;
 import ch.njol.skript.Skript;
@@ -12,6 +15,9 @@ import net.minecraft.server.v1_13_R2.MojangsonParser;
 import net.minecraft.server.v1_13_R2.NBTTagCompound;
 import javax.annotation.Nullable;
 
+@Name("NBT - Tag")
+@Description("Returns the value of the specified tag of the specified NBT")
+@Examples("set {_tag} to tag \"Invulnerable\" of targeted entity's nbt")
 public class ExprTagOfNBT extends SimpleExpression<String> {
 
     static {

@@ -1,6 +1,9 @@
-package de.jaylawl.jnbt.elements.expressions;
+package tk.shanebee.nbt.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.util.coll.CollectionUtils;
@@ -14,10 +17,13 @@ import net.minecraft.server.v1_13_R2.IBlockData;
 import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
 import javax.annotation.Nullable;
 
+@Name("NBT - Tile Entity")
+@Description("NBT of a tile entity, such as a furnace")
+@Examples({"add \"{RequiredPlayerRange:0s}\" to targeted block's nbt", "add \"{SpawnData:{id:\"\"minecraft:wither\"\"}}\" to nbt of clicked block"})
 public class ExprTileEntityNBT extends SimplePropertyExpression<Block, String> {
 
     static {
-        register(ExprTileEntityNBT.class, String.class, "[(block|tile[entity])( |-)]nbt", "block");
+        register(ExprTileEntityNBT.class, String.class, "[(block|tile[[ ]entity])( |-)]nbt", "block");
     }
 
     @Override

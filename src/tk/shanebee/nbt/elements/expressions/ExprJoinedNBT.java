@@ -1,5 +1,8 @@
-package de.jaylawl.jnbt.elements.expressions;
+package tk.shanebee.nbt.elements.expressions;
 
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.event.Event;
 import ch.njol.skript.Skript;
@@ -12,6 +15,9 @@ import net.minecraft.server.v1_13_R2.MojangsonParser;
 import net.minecraft.server.v1_13_R2.NBTTagCompound;
 import javax.annotation.Nullable;
 
+@Name("NBT - Joined")
+@Description("Joins two different NBTs together. The latter value will overwrite conflicting values between the two.")
+@Examples("set {_ex} to joined nbt from \"{Test:false,Whatever:123}\" and \"{Something:something,Test:true}\"")
 public class ExprJoinedNBT extends SimpleExpression<String> {
 
     static {

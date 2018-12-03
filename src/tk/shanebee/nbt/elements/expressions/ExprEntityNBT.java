@@ -1,6 +1,9 @@
-package de.jaylawl.jnbt.elements.expressions;
+package tk.shanebee.nbt.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.util.coll.CollectionUtils;
@@ -12,6 +15,9 @@ import net.minecraft.server.v1_13_R2.MojangsonParser;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftEntity;
 import javax.annotation.Nullable;
 
+@Name("NBT - Entity")
+@Description("Set the NBT of an entity")
+@Examples("spawn zombie at player\n" + "add \"{NoAI:1b}\" to entity-nbt of last spawned zombie")
 public class ExprEntityNBT extends SimplePropertyExpression<Entity, String> {
 
     static {
