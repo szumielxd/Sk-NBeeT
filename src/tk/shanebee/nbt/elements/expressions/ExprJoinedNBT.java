@@ -3,6 +3,7 @@ package tk.shanebee.nbt.elements.expressions;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.event.Event;
 import ch.njol.skript.Skript;
@@ -18,6 +19,7 @@ import javax.annotation.Nullable;
 @Name("NBT - Joined")
 @Description("Joins two different NBTs together. The latter value will overwrite conflicting values between the two.")
 @Examples("set {_ex} to joined nbt from \"{Test:false,Whatever:123}\" and \"{Something:something,Test:true}\"")
+@Since("1.0.0")
 public class ExprJoinedNBT extends SimpleExpression<String> {
 
     static {

@@ -4,6 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.util.coll.CollectionUtils;
@@ -18,8 +19,9 @@ import net.minecraft.server.v1_13_R2.MojangsonParser;
 import javax.annotation.Nullable;
 
 @Name("NBT - Item")
-@Description("NBT of an item")
+@Description("NBT of an item. Supports get, set, add, delete and reset")
 @Examples({"add \"{SomeTag:1234}\" to player's tool's item-nbt", "set nbt of command sender's chestplate to \"{Yes:false,No:true}\""})
+@Since("1.0.0")
 public class ExprItemNBT extends SimplePropertyExpression<ItemStack, String> {
 
     static {

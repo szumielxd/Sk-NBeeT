@@ -3,6 +3,7 @@ package tk.shanebee.nbt.elements.expressions;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.event.Event;
 import ch.njol.skript.Skript;
@@ -18,6 +19,7 @@ import javax.annotation.Nullable;
 @Name("NBT - Tag")
 @Description("Returns the value of the specified tag of the specified NBT")
 @Examples("set {_tag} to tag \"Invulnerable\" of targeted entity's nbt")
+@Since("1.0.0")
 public class ExprTagOfNBT extends SimpleExpression<String> {
 
     static {
