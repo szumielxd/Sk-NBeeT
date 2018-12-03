@@ -4,6 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.lang.ExpressionType;
 import org.bukkit.inventory.ItemFlag;
@@ -16,6 +17,7 @@ import javax.annotation.Nullable;
 @Description("Hides the NBT of an item, including enchantments and attributes")
 @Examples({"set player's tool to player's tool without NBT", "give player 1 diamond sword of sharpness 5 with no NBT",
         "set {_tool} to player's tool with hidden NBT"})
+@Since("1.3.0")
 public class ExprItemNoNBT extends SimplePropertyExpression<ItemStack, ItemStack> {
 
     static {
