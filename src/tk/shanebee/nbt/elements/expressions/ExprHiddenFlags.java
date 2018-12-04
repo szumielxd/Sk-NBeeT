@@ -28,7 +28,7 @@ public class ExprHiddenFlags extends SimplePropertyExpression<ItemStack, ItemSta
                 "%itemstacks% with (0¦attribute[s]|1¦enchant[s]|2¦destroy[s]|3¦potion[ ]effect[s]|4¦unbreakable|5¦all) flag[s] hidden");
     }
     @SuppressWarnings("null")
-    private Integer parse = 5;
+    private int parse = 5;
 
     @Override
     public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
@@ -52,9 +52,8 @@ public class ExprHiddenFlags extends SimplePropertyExpression<ItemStack, ItemSta
     public ItemStack convert(ItemStack item) {
         ItemStack i = item.clone();
         ItemMeta meta = i.getItemMeta();
-        int test = parse;
 
-        switch (test) {
+        switch (parse) {
             case 0:
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                 break;
@@ -81,4 +80,5 @@ public class ExprHiddenFlags extends SimplePropertyExpression<ItemStack, ItemSta
         i.setItemMeta(meta);
         return i;
     }
+
 }
