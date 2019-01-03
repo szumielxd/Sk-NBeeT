@@ -1,6 +1,7 @@
 package tk.shanebee.nbt.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.aliases.ItemType;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
@@ -11,7 +12,6 @@ import ch.njol.util.coll.CollectionUtils;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.event.Event;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
 import net.minecraft.server.v1_13_R2.NBTTagCompound;
 import net.minecraft.server.v1_13_R2.MojangsonParser;
@@ -20,21 +20,22 @@ import javax.annotation.Nullable;
 
 @Name("NBT - Item")
 @Description("NBT of an item. Supports get, set, add, delete and reset")
-@Examples({"add \"{SomeTag:1234}\" to player's tool's item-nbt", "set nbt of command sender's chestplate to \"{Yes:false,No:true}\""})
+@Examples({"add \"{Enchantments:[{id:\"\"sharpness\"\",lvl:1}]}\" to item-nbt of player's tool",
+        "set item-nbt of command sender's chestplate to \"{Yes:false,No:true}\""})
 @Since("1.0.0")
-public class ExprItemNBT extends SimplePropertyExpression<ItemStack, String> {
+public class ExprItemNBT extends SimplePropertyExpression<ItemType, String> {
 
     static {
-        register(ExprItemNBT.class, String.class, "[item[stack]( |-)]nbt", "itemstack");
+        register(ExprItemNBT.class, String.class, "[item[stack]( |-)]nbt", "itemtype");
     }
 
     @Override
     @Nullable
-    public String convert(ItemStack i) {
-        if (i == null || i.getType() == Material.AIR) {
+    public String convert(ItemType i) {
+        if (i == null || i.getMaterial() == Material.AIR) {
             return null;
         }
-        NBTTagCompound nbt = CraftItemStack.asNMSCopy(i).getTag();
+        NBTTagCompound nbt = CraftItemStack.asNMSCopy(i.getRandom()).getTag();
         if (nbt == null) {
             return null;
         }
@@ -57,9 +58,9 @@ public class ExprItemNBT extends SimplePropertyExpression<ItemStack, String> {
 
     @Override
     public void change(Event e, Object[] delta, ChangeMode mode) {
-        ItemStack i = getExpr().getSingle(e);
-        if (i != null || i.getType() != Material.AIR) {
-            net.minecraft.server.v1_13_R2.ItemStack nms = CraftItemStack.asNMSCopy(i);
+        ItemType i = getExpr().getSingle(e);
+        if (i != null && i.getMaterial() != Material.AIR) {
+            net.minecraft.server.v1_13_R2.ItemStack nms = CraftItemStack.asNMSCopy(i.getRandom());
             NBTTagCompound nbt;
             switch (mode) {
                 case ADD:
@@ -104,7 +105,7 @@ public class ExprItemNBT extends SimplePropertyExpression<ItemStack, String> {
 
     @Override
     protected String getPropertyName() {
-        return "itemstack nbt";
+        return "itemtype nbt";
     }
 
     @Override
