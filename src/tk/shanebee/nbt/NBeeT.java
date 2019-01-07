@@ -4,6 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.IOException;
 
@@ -11,6 +12,7 @@ public class NBeeT extends JavaPlugin {
 
     NBeeT instance;
     SkriptAddon addon;
+    private PluginDescriptionFile desc = getDescription();
 
     @Override
     public void onEnable() {
@@ -25,16 +27,19 @@ public class NBeeT extends JavaPlugin {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                getLogger().info(ChatColor.GREEN + "Successfully enabled");
+                getLogger().info(ChatColor.GREEN + "Successfully enabled v" + desc.getVersion());
             }
             else {
                 getLogger().info(ChatColor.RED + "Incompatible NMS version: " + nms);
                 getLogger().info(ChatColor.GOLD + "Please use Spigot 1.13.2");
                 Bukkit.getPluginManager().disablePlugin(this);
             }
+            if (desc.getVersion().contains("Beta")) {
+                getLogger().info(ChatColor.YELLOW + "This is a BETA build, things may not work as expected");
+            }
         }
         else {
-            getLogger().info(ChatColor.RED + "Dependency Skript was not found");
+            getLogger().info(ChatColor.RED + "Dependency Skript was not found, plugin disabling");
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }
