@@ -6,34 +6,39 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import tk.shanebee.nbt.nms.NBTApi;
+
 import java.io.IOException;
 
 public class NBeeT extends JavaPlugin {
 
     NBeeT instance;
     SkriptAddon addon;
+    private static NBTApi nbtApi;
     private PluginDescriptionFile desc = getDescription();
 
     @Override
     public void onEnable() {
         if ((Bukkit.getPluginManager().getPlugin("Skript") != null) && (Skript.isAcceptRegistrations())) {
             String nms = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-            if (nms.equals("v1_13_R2")) {
+            instance = this;
+            addon = Skript.registerAddon(this);
+            try {
+                nbtApi = (NBTApi) Class.forName(NBeeT.class.getPackage().getName() + ".nms.NBT_" + nms).newInstance();
                 getLogger().info(ChatColor.AQUA + "Compatible NMS version: " + nms);
-                instance = this;
-                addon = Skript.registerAddon(this);
-                try {
-                    addon.loadClasses("tk.shanebee.nbt", "elements");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                getLogger().info(ChatColor.GREEN + "Successfully enabled v" + desc.getVersion());
-            }
-            else {
-                getLogger().info(ChatColor.RED + "Incompatible NMS version: " + nms);
-                getLogger().info(ChatColor.GOLD + "Please use Spigot 1.13.2");
+            } catch (Throwable e) {
+                Skript.exception(new RuntimeException(ChatColor.RED + "Sk-NBeeT is not supported on this version [" + nms + "]"));
                 Bukkit.getPluginManager().disablePlugin(this);
+                return;
             }
+            try {
+                addon.loadClasses("tk.shanebee.nbt", "elements");
+            } catch (IOException e) {
+                e.printStackTrace();
+                Bukkit.getPluginManager().disablePlugin(this);
+                return;
+            }
+            getLogger().info(ChatColor.GREEN + "Successfully enabled v" + desc.getVersion());
             if (desc.getVersion().contains("Beta")) {
                 getLogger().info(ChatColor.YELLOW + "This is a BETA build, things may not work as expected");
             }
@@ -46,5 +51,9 @@ public class NBeeT extends JavaPlugin {
 
     @Override
     public void onDisable() {}
+
+    public static NBTApi getNBTApi() {
+        return nbtApi;
+    }
 
 }
