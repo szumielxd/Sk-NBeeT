@@ -12,8 +12,8 @@ import java.io.IOException;
 
 public class NBeeT extends JavaPlugin {
 
-    NBeeT instance;
-    SkriptAddon addon;
+    private static NBeeT instance;
+    private static SkriptAddon addon;
     private static NBTApi nbtApi;
     private PluginDescriptionFile desc = getDescription();
 
@@ -40,7 +40,8 @@ public class NBeeT extends JavaPlugin {
             }
             getLogger().info(ChatColor.GREEN + "Successfully enabled v" + desc.getVersion());
             if (desc.getVersion().contains("Beta")) {
-                getLogger().info(ChatColor.YELLOW + "This is a BETA build, things may not work as expected");
+                getLogger().info(ChatColor.YELLOW + "This is a BETA build, things may not work as expected, please report any bugs on GitHub");
+                getLogger().info(ChatColor.YELLOW + "https://github.com/ShaneBeee/Sk-NBeeT/issues");
             }
         }
         else {
