@@ -11,13 +11,11 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.util.Direction;
 import ch.njol.util.Kleenean;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.server.v1_13_R2.MojangsonParser;
-import net.minecraft.server.v1_13_R2.NBTTagCompound;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
+import tk.shanebee.nbt.NBeeT;
+import tk.shanebee.nbt.nms.NBTApi;
 
 import javax.annotation.Nullable;
 
@@ -30,7 +28,7 @@ public class EffSpawnEntityNBT extends Effect {
 
     static {
         Skript.registerEffect(EffSpawnEntityNBT.class,
-                "spawn %entitytypes% [%directions% %locations%] with nbt %string%", "" +
+                "spawn %entitytypes% [%directions% %locations%] with nbt %string%",
                         "spawn %number% of %entitytypes% [%directions% %locations%] with nbt %string%");
     }
 
@@ -57,6 +55,7 @@ public class EffSpawnEntityNBT extends Effect {
 
     @Override
     public void execute(final Event e) {
+        NBTApi api = NBeeT.getNBTApi();
         lastSpawned = null;
         String value = this.nbtString.getSingle(e);
         final Number a = amount != null ? amount.getSingle(e) : 1;
@@ -68,16 +67,7 @@ public class EffSpawnEntityNBT extends Effect {
             for (final EntityType type : et) {
                 for (int i = 0; i < a.doubleValue() * type.getAmount(); i++) {
                     lastSpawned = type.data.spawn(loc);
-                    net.minecraft.server.v1_13_R2.Entity nms = ((CraftEntity) lastSpawned).getHandle();
-                    NBTTagCompound nbt = new NBTTagCompound();
-                    nms.c(nbt);
-                    try {
-                        NBTTagCompound nbtv = MojangsonParser.parse(value);
-                        nbt.a(nbtv);
-                        nms.f(nbt);
-                    } catch (CommandSyntaxException ex) {
-                        Skript.warning("NBT parse error: " + ex.getMessage());
-                    }
+                    api.addNBT(lastSpawned, value);
                 }
             }
         }
