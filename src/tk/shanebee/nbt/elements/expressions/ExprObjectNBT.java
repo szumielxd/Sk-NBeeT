@@ -13,14 +13,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
-import org.bukkit.inventory.ItemStack;
 import tk.shanebee.nbt.NBeeT;
 import tk.shanebee.nbt.nms.NBTApi;
 
 import javax.annotation.Nullable;
 
 @Name("NBT - Item/Entity/Block")
-@Description({"NBT of an item, entity or tile entity (such as a furnace, hopper, brewing stand, banner, etc)"})
+@Description({"NBT of items, entities or tile entities (such as a furnace, hopper, brewing stand, banner, etc)"})
 @Examples({"set {_nbt} to nbt of player's tool", "add \"{Enchantments:[{id:\"\"sharpness\"\",lvl:5}]}\" to nbt of player's tool",
         "set {_nbt} to nbt of target entity", "set {_nbt} to event-entity",
         "add \"{CustomName:\"\"{\\\"\"text\\\"\":\\\"\"&bMyNewName\\\"\"}\"\"}\" to target entity",
