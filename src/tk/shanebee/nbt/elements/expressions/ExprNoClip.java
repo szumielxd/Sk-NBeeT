@@ -13,9 +13,10 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
+import tk.shanebee.nbt.NBeeT;
+import tk.shanebee.nbt.nms.NBTApi;
 
 import javax.annotation.Nullable;
 
@@ -48,6 +49,7 @@ public class ExprNoClip extends SimpleExpression<Boolean> {
 
     @Override
     protected Boolean[] get(Event e) {
+        NBTApi api = NBeeT.getNBTApi();
         Entity[] ents = entities.getAll(e);
         if (ents.length == 0) return null;
         Boolean[] noClipStates = new Boolean[ents.length];
@@ -55,8 +57,7 @@ public class ExprNoClip extends SimpleExpression<Boolean> {
         for (Entity ent : ents) {
             if (ent == null)
                 continue;
-            net.minecraft.server.v1_13_R2.Entity nmsEntity = ((CraftEntity) ent).getHandle();
-            noClipStates[i] = nmsEntity.noclip;
+            noClipStates[i] = api.getEntityNoClip(ent);
             i++;
         }
         return noClipStates;
@@ -73,6 +74,7 @@ public class ExprNoClip extends SimpleExpression<Boolean> {
 
     @Override
     public void change(Event e, @Nullable Object[] delta, ChangeMode mode) {
+        NBTApi api = NBeeT.getNBTApi();
         Entity[] ents = entities.getAll(e);
         if (ents.length == 0) return;
         if (mode == ChangeMode.SET) {
@@ -80,8 +82,7 @@ public class ExprNoClip extends SimpleExpression<Boolean> {
             for (Entity ent : ents) {
                 if (ent == null)
                     continue;
-                net.minecraft.server.v1_13_R2.Entity nmsEntity = ((CraftEntity) ent).getHandle();
-                nmsEntity.noclip = newValue;
+                api.setEntityNoClip(ent, newValue);
             }
         }
     }

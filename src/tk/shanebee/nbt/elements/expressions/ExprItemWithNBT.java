@@ -11,11 +11,9 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.server.v1_13_R2.ItemStack;
-import net.minecraft.server.v1_13_R2.MojangsonParser;
-import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
 import org.bukkit.event.Event;
+import tk.shanebee.nbt.NBeeT;
+import tk.shanebee.nbt.nms.NBTApi;
 
 import javax.annotation.Nullable;
 
@@ -44,15 +42,10 @@ public class ExprItemWithNBT extends PropertyExpression<ItemType, ItemType> {
 
     @Override
     protected ItemType[] get(Event e, ItemType[] source) {
+        NBTApi api = NBeeT.getNBTApi();
         String nbt = this.nbt.getSingle(e);
         return get(source, item -> {
-            ItemStack nms = CraftItemStack.asNMSCopy(item.getRandom());
-            try {
-                nms.setTag(MojangsonParser.parse(nbt));
-            } catch (CommandSyntaxException ex) {
-                Skript.warning("NBT parse error: " + ex.getMessage());
-            }
-            item.setItemMeta(CraftItemStack.asBukkitCopy(nms).getItemMeta());
+            api.setNBT(item, nbt);
             return item;
         });
     }

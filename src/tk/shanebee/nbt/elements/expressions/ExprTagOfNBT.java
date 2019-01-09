@@ -4,7 +4,6 @@ import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.event.Event;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
@@ -12,8 +11,9 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.util.Kleenean;
-import net.minecraft.server.v1_13_R2.MojangsonParser;
-import net.minecraft.server.v1_13_R2.NBTTagCompound;
+import tk.shanebee.nbt.NBeeT;
+import tk.shanebee.nbt.nms.NBTApi;
+
 import javax.annotation.Nullable;
 
 @Name("NBT - Tag")
@@ -40,22 +40,10 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
     @Override
     @Nullable
     protected String[] get(Event e) {
+        NBTApi api = NBeeT.getNBTApi();
         String t = a.getSingle(e);
         String n = b.getSingle(e);
-        if (t == null || n == null) {
-            return null;
-        }
-        try {
-            NBTTagCompound nbt = MojangsonParser.parse(n);
-            if (nbt.get(t) != null) {
-                return new String[] {nbt.get(t).toString()};
-            } else {
-                return null;
-            }
-        } catch (CommandSyntaxException ex) {
-            Skript.warning("NBT parse error: " + ex.getMessage());
-            return null;
-        }
+        return api.getNBTTag(t, n);
     }
 
     @Override
