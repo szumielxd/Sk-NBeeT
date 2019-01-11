@@ -27,7 +27,8 @@ public class NBeeT extends JavaPlugin {
                 nbtApi = (NBTApi) Class.forName(NBeeT.class.getPackage().getName() + ".nms.NBT_" + nms).newInstance();
                 getLogger().info(ChatColor.AQUA + "Compatible NMS version: " + nms);
             } catch (Throwable e) {
-                Skript.exception(new RuntimeException(ChatColor.RED + "Sk-NBeeT is not supported on this version [" + nms + "]"));
+                getLogger().info(ChatColor.RED + "Sk-NBeeT is not supported on this version [" +
+                        ChatColor.AQUA + nms + ChatColor.RED + "] and will now be disabled");
                 Bukkit.getPluginManager().disablePlugin(this);
                 return;
             }
@@ -43,8 +44,7 @@ public class NBeeT extends JavaPlugin {
                 getLogger().info(ChatColor.YELLOW + "This is a BETA build, things may not work as expected, please report any bugs on GitHub");
                 getLogger().info(ChatColor.YELLOW + "https://github.com/ShaneBeee/Sk-NBeeT/issues");
             }
-        }
-        else {
+        } else {
             getLogger().info(ChatColor.RED + "Dependency Skript was not found, plugin disabling");
             Bukkit.getPluginManager().disablePlugin(this);
         }
