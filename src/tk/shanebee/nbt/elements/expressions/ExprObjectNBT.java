@@ -8,8 +8,6 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.util.coll.CollectionUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
@@ -28,7 +26,7 @@ import javax.annotation.Nullable;
 public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
 
     static {
-        register(ExprObjectNBT.class, String.class, "[(entity|item|block|tile[(-| )]entity)(-| )]nbt", "blocks/entities/itemtypes");
+        register(ExprObjectNBT.class, String.class, "[(entity|item|block|tile[(-| )]entity)(-| )]nbt", "block/entity/itemtype");
     }
 
     @Override
@@ -42,7 +40,6 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
         } else if (o instanceof Block) {
             return api.getNBT((Block) o);
         }
-        Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "GET ERROR");
         return null;
     }
 
@@ -84,7 +81,7 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
 
     @Override
     protected String getPropertyName() {
-        return "tile entity nbt";
+        return "object nbt";
     }
 
     @Override
