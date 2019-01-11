@@ -18,14 +18,15 @@ import javax.annotation.Nullable;
 
 @Name("Hidden Item Flags")
 @Description("Hides the item flags on items, allowing you to make super duper custom items.")
-@Examples({"set player's tool to player's tool with attribute flag hidden", "give player 1 diamond sword of sharpness 5 with enchants flag hidden",
-        "set {_tool} to player's tool with all flags hidden", "give player potion of harming with potion effects flag hidden"})
+@Examples({"set player's tool to player's tool with attribute flag hidden", "give player 1 diamond sword of sharpness 5 with hidden enchants flag",
+        "set {_tool} to player's tool with all flags hidden", "give player potion of harming with hidden potion effects flag"})
 @Since("1.2.1")
 public class ExprHiddenFlags extends SimplePropertyExpression<ItemStack, ItemStack> {
 
     static {
         Skript.registerExpression(ExprHiddenFlags.class, ItemStack.class, ExpressionType.PROPERTY,
-                "%itemstacks% with (0¦attribute[s]|1¦enchant[s]|2¦destroy[s]|3¦potion[ ]effect[s]|4¦unbreakable|5¦all) flag[s] hidden");
+                "%itemstacks% with (0¦attribute[s]|1¦enchant[s]|2¦destroy[s]|3¦potion[ ]effect[s]|4¦unbreakable|5¦all) flag[s] hidden",
+                "%itemstacks% with hidden (0¦attribute[s]|1¦enchant[s]|2¦destroy[s]|3¦potion[ ]effect[s]|4¦unbreakable|5¦all) flag[s]");
     }
     @SuppressWarnings("null")
     private int parse = 5;
@@ -33,8 +34,7 @@ public class ExprHiddenFlags extends SimplePropertyExpression<ItemStack, ItemSta
     @Override
     public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
         parse = parseResult.mark;
-
-        return super.init(exprs, matchedPattern, isDelayed, parseResult);
+        return true;
     }
 
     @Override
