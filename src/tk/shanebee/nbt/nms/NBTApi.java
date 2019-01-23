@@ -4,6 +4,9 @@ import ch.njol.skript.aliases.ItemType;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 
+/**
+ * An API for getting/setting NBT for items, entities and tile entities
+ */
 public interface NBTApi {
 
     Class<?> getCompoundClass();
