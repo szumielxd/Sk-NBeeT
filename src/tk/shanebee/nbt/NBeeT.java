@@ -26,7 +26,7 @@ public class NBeeT extends JavaPlugin {
             try {
                 nbtApi = (NBTApi) Class.forName(NBeeT.class.getPackage().getName() + ".nms.NBT_" + nms).newInstance();
                 getLogger().info(ChatColor.AQUA + "Compatible NMS version: " + nms);
-            } catch (Throwable e) {
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 getLogger().info(ChatColor.RED + "Sk-NBeeT is not supported on this version [" +
                         ChatColor.AQUA + nms + ChatColor.RED + "] and will now be disabled");
                 Bukkit.getPluginManager().disablePlugin(this);
