@@ -1,6 +1,7 @@
 package tk.shanebee.nbt.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.aliases.ItemType;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
@@ -8,10 +9,10 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.ExpressionType;
-import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
@@ -21,25 +22,28 @@ import javax.annotation.Nullable;
 @Examples({"set player's tool to player's tool with attribute flag hidden", "give player 1 diamond sword of sharpness 5 with hidden enchants flag",
         "set {_tool} to player's tool with all flags hidden", "give player potion of harming with hidden potion effects flag"})
 @Since("1.2.1")
-public class ExprHiddenFlags extends SimplePropertyExpression<ItemStack, ItemStack> {
+public class ExprHiddenFlags extends SimplePropertyExpression<ItemType, ItemType> {
 
     static {
-        Skript.registerExpression(ExprHiddenFlags.class, ItemStack.class, ExpressionType.PROPERTY,
-                "%itemstacks% with (0¦attribute[s]|1¦enchant[s]|2¦destroy[s]|3¦potion[ ]effect[s]|4¦unbreakable|5¦all) flag[s] hidden",
-                "%itemstacks% with hidden (0¦attribute[s]|1¦enchant[s]|2¦destroy[s]|3¦potion[ ]effect[s]|4¦unbreakable|5¦all) flag[s]");
+        Skript.registerExpression(ExprHiddenFlags.class, ItemType.class, ExpressionType.PROPERTY,
+                "%itemtype% with (0¦attribute[s]|1¦enchant[s]|2¦destroy[s]|3¦potion[ ]effect[s]|4¦unbreakable|5¦all) flag[s] hidden",
+                "%itemtype% with hidden (0¦attribute[s]|1¦enchant[s]|2¦destroy[s]|3¦potion[ ]effect[s]|4¦unbreakable|5¦all) flag[s]");
     }
+
     @SuppressWarnings("null")
     private int parse = 5;
 
+    @SuppressWarnings({"unchecked","null"})
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
+    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
+        setExpr((Expression<ItemType>) exprs[0]);
         parse = parseResult.mark;
         return true;
     }
 
     @Override
-    public Class<? extends ItemStack> getReturnType() {
-        return ItemStack.class;
+    public Class<? extends ItemType> getReturnType() {
+        return ItemType.class;
     }
 
     @Override
@@ -49,10 +53,9 @@ public class ExprHiddenFlags extends SimplePropertyExpression<ItemStack, ItemSta
 
     @Override
     @Nullable
-    public ItemStack convert(ItemStack item) {
-        ItemStack i = item.clone();
-        ItemMeta meta = i.getItemMeta();
-
+    public ItemType convert(ItemType item) {
+        if (item == null) return null;
+        ItemMeta meta = item.getItemMeta();
         switch (parse) {
             case 0:
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -77,8 +80,34 @@ public class ExprHiddenFlags extends SimplePropertyExpression<ItemStack, ItemSta
                 meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
                 break;
         }
-        i.setItemMeta(meta);
-        return i;
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    @Override
+    public String toString(Event e, boolean d) {
+        String flag = null;
+        switch (parse) {
+            case 0:
+                flag = "attribute";
+                break;
+            case 1:
+                flag = "enchant";
+                break;
+            case 2:
+                flag = "destroy";
+                break;
+            case 3:
+                flag = "potion effect";
+                break;
+            case 4:
+                flag = "unbreakable";
+                break;
+            case 5:
+                flag = "all";
+                break;
+        }
+        return getExpr().toString(e, d) + " with " + flag + " flags hidden";
     }
 
 }
