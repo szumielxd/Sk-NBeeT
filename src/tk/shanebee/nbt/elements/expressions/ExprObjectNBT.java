@@ -17,9 +17,10 @@ import tk.shanebee.nbt.nms.NBTApi;
 import javax.annotation.Nullable;
 
 @Name("NBT - Item/Entity/Block")
-@Description({"NBT of items, entities or tile entities (such as a furnace, hopper, brewing stand, banner, etc)"})
+@Description({"NBT of items, entities or tile entities (such as a furnace, hopper, brewing stand, banner, etc) " +
+        "Supports get, set, add and reset. Reset will only properly work on an item, not entities or blocks"})
 @Examples({"set {_nbt} to nbt of player's tool", "add \"{Enchantments:[{id:\"\"sharpness\"\",lvl:5}]}\" to nbt of player's tool",
-        "set {_nbt} to nbt of target entity", "set {_nbt} to event-entity",
+        "reset nbt of player's tool", "set {_nbt} to nbt of target entity", "set {_nbt} to event-entity",
         "add \"{CustomName:\"\"{\\\"\"text\\\"\":\\\"\"&bMyNewName\\\"\"}\"\"}\" to target entity",
         "add \"{RequiredPlayerRange:0s}\" to targeted block's nbt", "add \"{SpawnData:{id:\"\"minecraft:wither\"\"}}\" to nbt of clicked block"})
 @Since("2.0.0")
@@ -45,7 +46,7 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
 
     @Override
     public Class<?>[] acceptChange(final ChangeMode mode) {
-        if (mode == ChangeMode.ADD || mode == ChangeMode.SET)
+        if (mode == ChangeMode.ADD || mode == ChangeMode.SET || mode == ChangeMode.RESET)
             return CollectionUtils.array(String.class);
         return null;
     }
@@ -53,7 +54,7 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
     @Override
     public void change(Event event, Object[] delta, ChangeMode mode) {
         Object o = getExpr().getSingle(event);
-        String value = ((String) delta[0]);
+        String value = delta != null ? ((String) delta[0]) : "{}";
         NBTApi api = NBeeT.getNBTApi();
         switch (mode) {
             case ADD:
@@ -66,6 +67,7 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
                 }
                 break;
             case SET:
+            case RESET:
                 if (o instanceof ItemType) {
                     api.setNBT((ItemType) o, value);
                 } else if (o instanceof Entity) {
@@ -88,4 +90,5 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
     public Class<? extends String> getReturnType() {
         return String.class;
     }
+
 }
