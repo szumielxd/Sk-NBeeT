@@ -104,11 +104,44 @@ public class NBT_v1_12_R1 implements NBTApi {
         } catch (MojangsonParseException ex) {
             Skript.warning("NBT parse error: " + ex.getMessage());
         }
-        i.setItemMeta(CraftItemStack.asBukkitCopy(nms).getItemMeta());
+        Reflection.setMeta(i, CraftItemStack.asBukkitCopy(nms).getItemMeta());
     }
 
     public void setNBT(ItemType i, String value) {
         ItemStack nms = CraftItemStack.asNMSCopy(i.getRandom());
+        try {
+            nms.setTag(MojangsonParser.parse(value));
+        } catch (MojangsonParseException ex) {
+            Skript.warning("NBT parse error: " + ex.getMessage());
+        }
+        Reflection.setMeta(i, CraftItemStack.asBukkitCopy(nms).getItemMeta());
+    }
+
+    public String getNBT(org.bukkit.inventory.ItemStack i) {
+        if (i == null || i.getType() == org.bukkit.Material.AIR) return null;
+        NBTTagCompound nbt = CraftItemStack.asNMSCopy(i).getTag();
+        if (nbt == null) return null;
+        return nbt.toString();
+    }
+
+    public void addNBT(org.bukkit.inventory.ItemStack i, String value) {
+        ItemStack nms = CraftItemStack.asNMSCopy(i);
+        NBTTagCompound nbt = new NBTTagCompound();
+        if (nms.getTag() != null) {
+            nbt = nms.getTag();
+        }
+        try {
+            NBTTagCompound nbtv = MojangsonParser.parse(value);
+            nbt.a(nbtv);
+            nms.setTag(nbt);
+        } catch (MojangsonParseException ex) {
+            Skript.warning("NBT parse error: " + ex.getMessage());
+        }
+        i.setItemMeta(CraftItemStack.asBukkitCopy(nms).getItemMeta());
+    }
+
+    public void setNBT(org.bukkit.inventory.ItemStack i, String value) {
+        ItemStack nms = CraftItemStack.asNMSCopy(i);
         try {
             nms.setTag(MojangsonParser.parse(value));
         } catch (MojangsonParseException ex) {

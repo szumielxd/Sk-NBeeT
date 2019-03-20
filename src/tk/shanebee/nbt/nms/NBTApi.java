@@ -3,6 +3,7 @@ package tk.shanebee.nbt.nms;
 import ch.njol.skript.aliases.ItemType;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * An API for getting/setting NBT for items, entities and tile entities
@@ -82,6 +83,17 @@ public interface NBTApi {
      * @param value The NBT string you are adding to the item
      */
     void addNBT(ItemType i, String value);
+
+
+    // TODO test
+
+    String getNBT(ItemStack i);
+
+    void addNBT(ItemStack i, String value);
+
+    void setNBT(ItemStack i, String value);
+
+    // TODO end test
 
     /**
      * Used to get a specific tag from NBT

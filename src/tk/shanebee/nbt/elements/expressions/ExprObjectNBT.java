@@ -1,16 +1,17 @@
 package tk.shanebee.nbt.elements.expressions;
 
 import ch.njol.skript.aliases.ItemType;
+import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
-import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.util.coll.CollectionUtils;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 import tk.shanebee.nbt.NBeeT;
 import tk.shanebee.nbt.nms.NBTApi;
 
@@ -27,14 +28,16 @@ import javax.annotation.Nullable;
 public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
 
     static {
-        register(ExprObjectNBT.class, String.class, "[(entity|item|block|tile[(-| )]entity)(-| )]nbt", "block/entity/itemtype");
+        register(ExprObjectNBT.class, String.class, "[(entity|item|block|tile[(-| )]entity)(-| )]nbt", "block/entity/itemstack/itemtype");
     }
 
     @Override
     @Nullable
     public String convert(Object o) {
         NBTApi api = NBeeT.getNBTApi();
-        if (o instanceof ItemType) {
+        if (o instanceof ItemStack) {
+            return api.getNBT((ItemStack) o);
+        } else if (o instanceof ItemType) {
             return api.getNBT((ItemType) o);
         } else if (o instanceof Entity) {
             return api.getNBT((Entity) o);
@@ -58,7 +61,9 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
         NBTApi api = NBeeT.getNBTApi();
         switch (mode) {
             case ADD:
-                if (o instanceof ItemType) {
+                if (o instanceof ItemStack) {
+                    api.addNBT((ItemStack) o, value);
+                } else if (o instanceof ItemType) {
                     api.addNBT((ItemType) o, value);
                 } else if (o instanceof Entity) {
                     api.addNBT((Entity) o, value);
@@ -68,7 +73,9 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
                 break;
             case SET:
             case RESET:
-                if (o instanceof ItemType) {
+                if (o instanceof ItemStack) {
+                    api.setNBT((ItemStack) o, value);
+                } else if (o instanceof ItemType) {
                     api.setNBT((ItemType) o, value);
                 } else if (o instanceof Entity) {
                     api.setNBT((Entity) o, value);
