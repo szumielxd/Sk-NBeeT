@@ -178,14 +178,17 @@ public class NBT_v1_8_R3 implements NBTApi {
         entity.noclip = value;
     }
 
-    public String[] getJoinedNBT(String a, String b) {
+    public String[] getJoinedNBTList(String[] list) {
         try {
-            NBTTagCompound nbto = MojangsonParser.parse(a);
-            NBTTagCompound nbtj = MojangsonParser.parse(b);
-            nbto.a(nbtj);
+            NBTTagCompound nbto = new NBTTagCompound();
+            NBTTagCompound nbtj;
+            for (String nbt : list) {
+                nbtj = MojangsonParser.parse(nbt);
+                nbto.a(nbtj);
+            }
             return new String[] {
                     nbto.toString()
-            } ;
+            };
         } catch (MojangsonParseException ex) {
             Skript.warning("NBT parse error: " + ex.getMessage());
             return null;

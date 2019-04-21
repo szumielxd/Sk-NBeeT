@@ -17,23 +17,22 @@ import tk.shanebee.nbt.nms.NBTApi;
 import javax.annotation.Nullable;
 
 @Name("NBT - Joined")
-@Description("Joins two different NBTs together. The latter value will overwrite conflicting values between the two.")
+@Description("Joins two or more different NBTs together. The latter value will overwrite conflicting values between the them.")
 @Examples("set {_ex} to joined nbt from \"{Test:false,Whatever:123}\" and \"{Something:something,Test:true}\"")
 @Since("1.0.0")
 public class ExprJoinedNBT extends SimpleExpression<String> {
 
     static {
-        Skript.registerExpression(ExprJoinedNBT.class, String.class, ExpressionType.SIMPLE,"joined nbt[( |-)string] from %string% and %string%");
+        Skript.registerExpression(ExprJoinedNBT.class, String.class, ExpressionType.SIMPLE,
+                "joined nbt[( |-)string] from %strings%");
     }
 
     private Expression<String> a;
-    private Expression<String> b;
 
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, ParseResult parser) {
         this.a = (Expression<String>) expressions[0];
-        this.b = (Expression<String>) expressions[1];
         return true;
     }
 
@@ -41,9 +40,7 @@ public class ExprJoinedNBT extends SimpleExpression<String> {
     @Nullable
     protected String[] get(Event e) {
         NBTApi api = NBeeT.getNBTApi();
-        String o = a.getSingle(e);
-        String j = b.getSingle(e);
-        return api.getJoinedNBT(o, j);
+        return api.getJoinedNBTList(a.getArray(e));
     }
 
     @Override

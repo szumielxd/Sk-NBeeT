@@ -117,11 +117,12 @@ public interface NBTApi {
      */
     void setEntityNoClip(Entity e, Boolean value);
 
+
     /**
-     * Used to join two NBT strings together
-     * @param a The first NBT string you are joining
-     * @param b The second NBT string you are joining
+     * Used to join two or more NBT strings together
+     * @param list A list of NBT strings to join
      * @return A new joined NBT string
      */
-    String[] getJoinedNBT(String a, String b);
+    String[] getJoinedNBTList(String... list);
+
 }
