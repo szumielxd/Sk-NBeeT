@@ -3,8 +3,8 @@ package tk.shanebee.nbt.nms;
 import ch.njol.skript.Skript;
 import ch.njol.skript.aliases.ItemType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import org.bukkit.block.Block;
 import net.minecraft.server.v1_14_R1.*;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
@@ -86,7 +86,7 @@ public class NBT_v1_14_R1 implements NBTApi {
     }
 
     public String getNBT(ItemType i) {
-        if (i == null || i.getMaterial() == org.bukkit.Material.AIR) return null;
+        if (i == null) return null;
         NBTTagCompound nbt = CraftItemStack.asNMSCopy(i.getRandom()).getTag();
         if (nbt == null) return null;
         return nbt.toString();
@@ -119,7 +119,6 @@ public class NBT_v1_14_R1 implements NBTApi {
     }
 
     public String getNBT(org.bukkit.inventory.ItemStack i) {
-        if (i == null || i.getType() == org.bukkit.Material.AIR) return null;
         NBTTagCompound nbt = CraftItemStack.asNMSCopy(i).getTag();
         if (nbt == null) return null;
         return nbt.toString();
