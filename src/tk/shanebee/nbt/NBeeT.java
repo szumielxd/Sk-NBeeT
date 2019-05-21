@@ -12,8 +12,6 @@ import java.io.IOException;
 
 public class NBeeT extends JavaPlugin {
 
-    private static NBeeT instance;
-    private static SkriptAddon addon;
     private static NBTApi nbtApi;
     private PluginDescriptionFile desc = getDescription();
 
@@ -21,13 +19,12 @@ public class NBeeT extends JavaPlugin {
     public void onEnable() {
         if ((Bukkit.getPluginManager().getPlugin("Skript") != null) && (Skript.isAcceptRegistrations())) {
             String nms = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-            instance = this;
-            addon = Skript.registerAddon(this);
+            SkriptAddon addon = Skript.registerAddon(this);
             try {
                 nbtApi = (NBTApi) Class.forName(NBeeT.class.getPackage().getName() + ".nms.NBT_" + nms).newInstance();
-                getLogger().info(ChatColor.AQUA + "Compatible NMS version: " + nms);
+                sendColConsole("&bCompatible NMS version: " + nms);
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                getLogger().info(ChatColor.RED + "Sk-NBeeT is not supported on this version [" +
+                sendColConsole("&cSk-NBeeT is not supported on this version [" +
                         ChatColor.AQUA + nms + ChatColor.RED + "] and will now be disabled");
                 Bukkit.getPluginManager().disablePlugin(this);
                 return;
@@ -39,13 +36,13 @@ public class NBeeT extends JavaPlugin {
                 Bukkit.getPluginManager().disablePlugin(this);
                 return;
             }
-            getLogger().info(ChatColor.GREEN + "Successfully enabled v" + desc.getVersion());
+            sendColConsole("&aSuccessfully enabled v" + desc.getVersion());
             if (desc.getVersion().contains("Beta")) {
-                getLogger().info(ChatColor.YELLOW + "This is a BETA build, things may not work as expected, please report any bugs on GitHub");
-                getLogger().info(ChatColor.YELLOW + "https://github.com/ShaneBeee/Sk-NBeeT/issues");
+                sendColConsole("&eThis is a BETA build, things may not work as expected, please report any bugs on GitHub");
+                sendColConsole("&ehttps://github.com/ShaneBeee/Sk-NBeeT/issues");
             }
         } else {
-            getLogger().info(ChatColor.RED + "Dependency Skript was not found, plugin disabling");
+            sendColConsole("&cDependency Skript was not found, plugin disabling");
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }
@@ -55,6 +52,11 @@ public class NBeeT extends JavaPlugin {
 
     public static NBTApi getNBTApi() {
         return nbtApi;
+    }
+
+    private void sendColConsole(String message) {
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',
+                "&7[&bSk-NBeeT&7] " + message));
     }
 
 }
