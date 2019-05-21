@@ -86,7 +86,7 @@ public class NBT_v1_13_R2 implements NBTApi {
     }
 
     public String getNBT(ItemType i) {
-        if (i == null || i.getMaterial() == org.bukkit.Material.AIR) return null;
+        if (i == null) return null;
         NBTTagCompound nbt = CraftItemStack.asNMSCopy(i.getRandom()).getTag();
         if (nbt == null) return null;
         return nbt.toString();
@@ -119,7 +119,6 @@ public class NBT_v1_13_R2 implements NBTApi {
     }
 
     public String getNBT(org.bukkit.inventory.ItemStack i) {
-        if (i == null || i.getType() == org.bukkit.Material.AIR) return null;
         NBTTagCompound nbt = CraftItemStack.asNMSCopy(i).getTag();
         if (nbt == null) return null;
         return nbt.toString();
