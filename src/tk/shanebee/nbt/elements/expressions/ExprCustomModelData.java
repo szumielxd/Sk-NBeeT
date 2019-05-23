@@ -21,7 +21,7 @@ public class ExprCustomModelData extends SimplePropertyExpression<ItemStack, Lon
 
     static {
         if (Skript.isRunningMinecraft(1, 14)) {
-            register(ExprCustomModelData.class, Long.class, "[the] [custom] model data [tag]", "itemstack");
+            register(ExprCustomModelData.class, Long.class, "[custom] model data [tag]", "itemstack");
         }
     }
 
