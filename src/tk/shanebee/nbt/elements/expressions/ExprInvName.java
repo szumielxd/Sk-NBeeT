@@ -14,7 +14,7 @@ public class ExprInvName extends SimplePropertyExpression<Object, String> {
 
 	static {
 		if (Skript.isRunningMinecraft(1, 14))
-			register(ExprInvName.class, String.class, "(custom|inventory) name", "inventories");
+			register(ExprInvName.class, String.class, "[(custom|inv[entory]) ]name", "inventories");
 	}
 
 	@Override
