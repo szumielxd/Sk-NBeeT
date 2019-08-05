@@ -1,6 +1,10 @@
 package tk.shanebee.nbt.elements.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
@@ -10,11 +14,15 @@ import org.bukkit.inventory.Inventory;
 
 @SuppressWarnings("unused")
 // This is temporary until Skript can fix getting the name of an inventory
+@Name("Inventory Name")
+@Description("This is a temp placeholder for Skript's inventory name expression, which is broken in 1.14+")
+@Examples("if inventory name of current inventory of player = \"Settings\":")
+@Since("2.4.1")
 public class ExprInvName extends SimplePropertyExpression<Object, String> {
 
 	static {
 		if (Skript.isRunningMinecraft(1, 14))
-			register(ExprInvName.class, String.class, "[(custom|inv[entory]) ]name", "inventories");
+			register(ExprInvName.class, String.class, "(custom|inv[entory]) name", "inventories");
 	}
 
 	@Override
