@@ -9,6 +9,7 @@ import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 public class NBT_v1_14_R1 implements NBTApi {
 
@@ -58,7 +59,11 @@ public class NBT_v1_14_R1 implements NBTApi {
     public String getNBT(Entity e) {
         net.minecraft.server.v1_14_R1.Entity nms = ((CraftEntity) e).getHandle();
         NBTTagCompound nbt = new NBTTagCompound();
-        nms.c(nbt);
+        if (e instanceof Player) {
+            nms.save(nbt);
+        } else {
+            nms.c(nbt);
+        }
         return nbt.toString();
     }
 
