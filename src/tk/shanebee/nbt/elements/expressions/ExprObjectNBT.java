@@ -18,17 +18,19 @@ import tk.shanebee.nbt.nms.NBTApi;
 import javax.annotation.Nullable;
 
 @Name("NBT - Item/Entity/Block")
-@Description({"NBT of items, entities or tile entities (such as a furnace, hopper, brewing stand, banner, etc) " +
+@Description({"NBT of items, entities, tile entities (such as a furnace, hopper, brewing stand, banner, etc) or files. " +
         "Supports get, set, add and reset. Reset will only properly work on an item, not entities or blocks"})
 @Examples({"set {_nbt} to nbt of player's tool", "add \"{Enchantments:[{id:\"\"sharpness\"\",lvl:5}]}\" to nbt of player's tool",
         "reset nbt of player's tool", "set {_nbt} to nbt of target entity", "set {_nbt} to event-entity",
         "add \"{CustomName:\"\"{\\\"\"text\\\"\":\\\"\"&bMyNewName\\\"\"}\"\"}\" to target entity",
-        "add \"{RequiredPlayerRange:0s}\" to targeted block's nbt", "add \"{SpawnData:{id:\"\"minecraft:wither\"\"}}\" to nbt of clicked block"})
+        "add \"{RequiredPlayerRange:0s}\" to targeted block's nbt", "add \"{SpawnData:{id:\"\"minecraft:wither\"\"}}\" to nbt of clicked block",
+        "set {_nbt} to file-nbt of \"world/playerdata/some-uuid-here.dat\""})
 @Since("2.0.0")
 public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
 
     static {
-        register(ExprObjectNBT.class, String.class, "[(entity|item|block|tile[(-| )]entity)(-| )]nbt", "block/entity/itemstack/itemtype");
+        register(ExprObjectNBT.class, String.class, "[(entity|item|block|tile[(-| )]entity|file)(-| )]nbt",
+                "block/entity/itemstack/itemtype/string");
     }
 
     @Override
@@ -43,6 +45,8 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
             return api.getNBT((Entity) o);
         } else if (o instanceof Block) {
             return api.getNBT((Block) o);
+        } else if (o instanceof String) {
+            return api.getNBT((String) o);
         }
         return null;
     }
@@ -69,6 +73,8 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
                     api.addNBT((Entity) o, value);
                 } else if (o instanceof Block) {
                     api.addNBT(((Block) o), value);
+                } else if (o instanceof String) {
+                    api.addNBT(((String) o), value);
                 }
                 break;
             case SET:
@@ -81,6 +87,8 @@ public class ExprObjectNBT extends SimplePropertyExpression<Object, String> {
                     api.setNBT((Entity) o, value);
                 } else if (o instanceof Block) {
                     api.setNBT(((Block) o), value);
+                } else if (o instanceof String) {
+                    api.setNBT(((String) o), value);
                 }
                 break;
             default:

@@ -11,6 +11,8 @@ import org.bukkit.craftbukkit.v1_14_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import java.io.*;
+
 public class NBT_v1_14_R1 implements NBTApi {
 
     @Override
@@ -153,6 +155,81 @@ public class NBT_v1_14_R1 implements NBTApi {
             Skript.warning("NBT parse error: " + ex.getMessage());
         }
         i.setItemMeta(CraftItemStack.asBukkitCopy(nms).getItemMeta());
+    }
+
+    // NBT for Files
+    public String getNBT(String fileName) {
+        FileInputStream fis = null;
+        File file = getFile(fileName);
+        if (file == null) return null;
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException ex) {
+            return null;
+        }
+        NBTTagCompound fileNBT = null;
+        try {
+            fileNBT = NBTCompressedStreamTools.a(fis);
+            fis.close();
+        } catch (IOException ex) {
+            if (!(ex instanceof EOFException)) {
+                Skript.warning("NBT file error: " + ex.getMessage());
+            }
+            return null;
+        }
+        return fileNBT.toString();
+
+
+    }
+
+    public void addNBT(String file, String value) {
+        NBTTagCompound nbt;
+        try {
+            NBTTagCompound nbtN = MojangsonParser.parse(value);
+            nbt = MojangsonParser.parse(getNBT(file));
+            nbt.a(nbtN);
+            setFileNBT(file, nbt);
+        } catch (CommandSyntaxException ex) {
+            Skript.warning("NBT parse error: " + ex.getMessage());
+        }
+    }
+
+    public void setNBT(String file, String value) {
+        try {
+            NBTTagCompound nbt = MojangsonParser.parse(value);
+            setFileNBT(file, nbt);
+        } catch (CommandSyntaxException ex) {
+            Skript.warning("NBT parse error: " + ex.getMessage());
+        }
+    }
+
+    // Internal use to set file NBT
+    private void setFileNBT(String file, NBTTagCompound compound) {
+        File f = getFile(file);
+        if (f == null) return;
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(f);
+        } catch (FileNotFoundException ex) {
+            Skript.warning("NBT parse error: " + ex.getMessage());
+        }
+        try {
+            NBTCompressedStreamTools.a(compound, os);
+        } catch (IOException ex) {
+            Skript.warning("NBT parse error: " + ex.getMessage());
+        }
+
+    }
+
+    // Internal use to get file NBT
+    private File getFile(String fileName) {
+        fileName = !fileName.endsWith(".dat") ? fileName + ".dat" : fileName;
+        File file = new File(fileName);
+        if (!file.exists()) {
+            return null;
+        } else {
+            return file;
+        }
     }
 
     public String[] getNBTTag(String a, String b) {

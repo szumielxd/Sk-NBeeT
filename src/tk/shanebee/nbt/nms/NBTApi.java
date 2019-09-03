@@ -95,6 +95,12 @@ public interface NBTApi {
 
     // TODO end test
 
+    String getNBT(String file);
+
+    void addNBT(String file, String value);
+
+    void setNBT(String file, String value);
+
     /**
      * Used to get a specific tag from NBT
      * @param a The tag you are getting from NBT
