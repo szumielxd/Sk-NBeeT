@@ -2,6 +2,7 @@ package tk.shanebee.nbt.elements.types;
 
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Serializer;
+import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.yggdrasil.Fields;
 import tk.shanebee.nbt.elements.objects.Bound;
@@ -13,8 +14,10 @@ public class SkriptTypes {
 
     static {
         Classes.registerClass(new ClassInfo<>(Bound.class, "bound")
+                .user("bound")
                 .name("Bounding Box")
                 .description("Represents a 3D bounding box between 2 points")
+                .defaultExpression(new EventValueExpression<>(Bound.class))
                 .since("2.6.0")
                 .serializer(new Serializer<Bound>() {
                     @Override
@@ -49,6 +52,7 @@ public class SkriptTypes {
                     protected boolean canBeInstantiated() {
                         return false;
                     }
+
                 }));
     }
 

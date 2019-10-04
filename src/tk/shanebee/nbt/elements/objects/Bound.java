@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.util.BoundingBox;
+import tk.shanebee.nbt.NBeeT;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,12 +33,13 @@ public class Bound {
      */
     public Bound(String world, int x, int y, int z, int x2, int y2, int z2) {
         this.world = world;
-        this.x = Math.max(x,x2);
+        this.x = Math.min(x, x2);
         this.y = Math.min(y, y2);
-        this.z = Math.max(z, z2);
-        this.x2 = Math.min(x,x2);
+        this.z = Math.min(z, z2);
+        this.x2 = Math.max(x, x2);
         this.y2 = Math.max(y, y2);
-        this.z2 = Math.min(z, z2);
+        this.z2 = Math.max(z, z2);
+        NBeeT.getInstance().getBounds().add(this);
     }
 
     /** Create a new bounding box between 2 locations (must be in same world)
@@ -61,6 +63,7 @@ public class Bound {
         this.x2 = Integer.parseInt(coords[4]);
         this.y2 = Integer.parseInt(coords[5]);
         this.z2 = Integer.parseInt(coords[6]);
+        NBeeT.getInstance().getBounds().add(this);
     }
 
     /** Check if a location is within the region of this bound
