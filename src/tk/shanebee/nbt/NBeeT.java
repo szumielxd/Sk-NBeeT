@@ -7,8 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import tk.shanebee.nbt.elements.objects.Bound;
+import tk.shanebee.nbt.listener.BoundBorderListener;
 import tk.shanebee.nbt.nms.NBTApi;
-import tk.shanebee.nbt.task.BoundMoveTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ public class NBeeT extends JavaPlugin {
     private static NBTApi nbtApi;
     private PluginDescriptionFile desc = getDescription();
     private List<Bound> bounds = new ArrayList<>();
-    private BoundMoveTask task;
 
     @Override
     public void onEnable() {
@@ -53,12 +52,12 @@ public class NBeeT extends JavaPlugin {
             sendColConsole("&cDependency Skript was not found, plugin disabling");
             Bukkit.getPluginManager().disablePlugin(this);
         }
-        task = new BoundMoveTask();
+        Bukkit.getPluginManager().registerEvents(new BoundBorderListener(), this);
     }
 
     @Override
     public void onDisable() {
-        this.task.cancel();
+        //this.task.cancel();
     }
 
     public static NBeeT getInstance() {
