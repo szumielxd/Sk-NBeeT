@@ -11,6 +11,7 @@ import org.bukkit.entity.Entity;
 
 import java.io.*;
 
+@SuppressWarnings("DuplicatedCode")
 public class NBT_v1_8_R3 implements NBTApi {
 
     @Override
