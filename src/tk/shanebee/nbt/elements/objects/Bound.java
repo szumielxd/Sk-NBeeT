@@ -9,6 +9,7 @@ import org.bukkit.util.BoundingBox;
 import tk.shanebee.nbt.NBeeT;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @SuppressWarnings("unused")
@@ -94,6 +95,24 @@ public class Bound {
                     if (b.getType() == type) {
                         array.add(b.getLocation());
                     }
+                }
+            }
+        }
+        return array;
+    }
+
+    /** Get a list of blocks within a bound
+     * @return List of blocks within bound
+     */
+    public List<Block> getBlocks() {
+        World w = Bukkit.getWorld(world);
+        List <Block> array = new ArrayList<>();
+        for (int x3 = x; x3 <= x2; x3++) {
+            for (int y3 = y; y3 <= y2; y3++) {
+                for (int z3 = z; z3 <= z2; z3++) {
+                    assert w != null;
+                    Block b = w.getBlockAt(x3, y3, z3);
+                    array.add(b);
                 }
             }
         }
