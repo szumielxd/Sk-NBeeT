@@ -47,7 +47,7 @@ public class ExprBound extends SimpleExpression<Bound> {
         Location greater = this.greater.getSingle(event);
         World w = greater.getWorld();
         assert w != null;
-        int max = w.getMaxHeight();
+        int max = w.getMaxHeight() - 1;
         if (full) {
             lesser.setY(0);
             greater.setY(max);
