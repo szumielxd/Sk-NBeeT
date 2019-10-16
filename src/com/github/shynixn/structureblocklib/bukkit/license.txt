@@ -1,0 +1,2 @@
+StructureLib repo: https://github.com/Shynixn/StructureBlockLib
+StructureLib License: https://github.com/Shynixn/StructureBlockLib/blob/master/LICENSE
