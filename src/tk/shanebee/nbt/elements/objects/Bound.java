@@ -5,15 +5,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.BoundingBox;
 import tk.shanebee.nbt.NBeeT;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @SuppressWarnings("unused")
-public class Bound {
+public class Bound implements ConfigurationSerializable {
 
     private int x;
     private int y;
@@ -205,6 +204,41 @@ public class Bound {
      */
     public String toString() {
         return "" + world + ":" + x + ":" + y + ":" + z + ":" + x2 + ":" + y2 + ":" + z2;
+    }
+
+    /** Serialize this bound into yaml configuration
+     * @return Yaml configuration serialization of this bound
+     */
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> result = new LinkedHashMap<>();
+
+        result.put("world", world);
+        result.put("x1", x);
+        result.put("y1", y);
+        result.put("z1", z);
+        result.put("x2", x2);
+        result.put("y2", y2);
+        result.put("z2", z2);
+
+        return result;
+    }
+
+    /** Deserialize this bound from yaml configuration
+     * @param args Args from yaml
+     * @return New bound from serialized yaml configuration
+     */
+    public static Bound deserialize(Map<String, Object> args) {
+        String world = ((String) args.get("world"));
+        int x = ((Number) args.get("x1")).intValue();
+        int y = ((Number) args.get("y1")).intValue();
+        int z = ((Number) args.get("z1")).intValue();
+        int x2 = ((Number) args.get("x2")).intValue();
+        int y2 = ((Number) args.get("y2")).intValue();
+        int z2 = ((Number) args.get("z2")).intValue();
+
+        return new Bound(world, x, y, z, x2, y2, z2);
     }
 
 }
