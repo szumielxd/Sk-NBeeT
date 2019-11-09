@@ -29,7 +29,7 @@ public class ExprBoundCoords extends PropertyExpression<Bound, Object> {
         Skript.registerExpression(ExprBoundCoords.class, Object.class, ExpressionType.PROPERTY,
                 "lesser (0¦x|1¦y|2¦z) coord[inate] of [bound] %bound%",
                 "greater (0¦x|1¦y|2¦z) coord[inate] of [bound] %bound%",
-                "world of [bound] %bound%");
+                "world of bound %bound%");
     }
 
     private boolean WORLD;
