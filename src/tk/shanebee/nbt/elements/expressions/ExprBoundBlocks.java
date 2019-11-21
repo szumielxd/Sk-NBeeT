@@ -17,7 +17,7 @@ import tk.shanebee.nbt.elements.objects.Bound;
 import java.util.ArrayList;
 import java.util.List;
 
-@Name("Bounding Box Blocks")
+@Name("Bound - Blocks")
 @Description("All the blocks within a bound")
 @Examples({"set {_blocks::*} to all blocks within bound {bound}",
         "set all blocks within {bound} to stone",

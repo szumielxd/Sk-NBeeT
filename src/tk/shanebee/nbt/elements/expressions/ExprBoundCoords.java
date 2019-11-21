@@ -17,11 +17,11 @@ import org.bukkit.World;
 import org.bukkit.event.Event;
 import tk.shanebee.nbt.elements.objects.Bound;
 
-@Name("Bounding Box Coords")
+@Name("Bound - Coords")
 @Description({"The coords and world of a bounding box. You can get the world/coords for a specific bound, you can also " +
         "set the coords of a bounding box. You can NOT set the world of a bounding box. ",
         "\nLesser will always equal the lower south-east corner. ", "Greater will always equal the higher north-west corner."})
-@Examples({"set lesser y coord of {bound} to 10", "set {_x} to greater x coord of {bound}"})
+@Examples({"set lesser y coord of {bound} to 10", "set {_x} to greater x coord of bound with id \"my.bound\""})
 @Since("2.6.0")
 public class ExprBoundCoords extends PropertyExpression<Bound, Object> {
 

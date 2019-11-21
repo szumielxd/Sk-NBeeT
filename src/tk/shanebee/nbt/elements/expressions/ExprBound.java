@@ -2,7 +2,6 @@ package tk.shanebee.nbt.elements.expressions;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Expression;
@@ -14,18 +13,18 @@ import ch.njol.util.coll.CollectionUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.event.Event;
-import tk.shanebee.nbt.elements.objects.Bound;
+import tk.shanebee.nbt.elements.objects.OldBound;
 
+@SuppressWarnings("deprecation")
 @Name("Bounding Box")
-@Description({"Create a new 3D bounding box between 2 points. This could be useful for creating your own region system. ",
-        "Optional \"full\" bound is a bound that extends from Y=0 to Y=255 (of whatever max height your world is)."})
-@Examples({"set {bound::1} to bound between {loc1} and {loc2}",
-        "set {bound::2} to full bound between {loc1} and {loc2}"})
-@Since("2.6.0")
-public class ExprBound extends SimpleExpression<Bound> {
+@Description({"DEPRECATED... Please use new CREATE BOUND effect [Bound - Create/Remove]. ",
+        "To convert old bounds to new bounds use the new convert bound effect [Bound - Convert]. ",
+        "This will be removed in the future."})
+@Since("2.6.0-deprecated")
+public class ExprBound extends SimpleExpression<OldBound> {
 
     static {
-        Skript.registerExpression(ExprBound.class, Bound.class, ExpressionType.SIMPLE,
+        Skript.registerExpression(ExprBound.class, OldBound.class, ExpressionType.SIMPLE,
                 "[a] [new] [(1¦full)] bound between %location% and %location%");
     }
 
@@ -42,7 +41,7 @@ public class ExprBound extends SimpleExpression<Bound> {
     }
 
     @Override
-    protected Bound[] get(Event event) {
+    protected OldBound[] get(Event event) {
         Location lesser = this.lesser.getSingle(event);
         Location greater = this.greater.getSingle(event);
         World w = greater.getWorld();
@@ -52,7 +51,7 @@ public class ExprBound extends SimpleExpression<Bound> {
             lesser.setY(0);
             greater.setY(max);
         }
-        return CollectionUtils.array(new Bound(lesser, greater));
+        return CollectionUtils.array(new OldBound(lesser, greater));
     }
 
     @Override
@@ -61,8 +60,8 @@ public class ExprBound extends SimpleExpression<Bound> {
     }
 
     @Override
-    public Class<? extends Bound> getReturnType() {
-        return Bound.class;
+    public Class<? extends OldBound> getReturnType() {
+        return OldBound.class;
     }
 
     @Override

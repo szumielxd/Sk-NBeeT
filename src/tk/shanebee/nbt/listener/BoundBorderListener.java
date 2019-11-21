@@ -7,11 +7,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import tk.shanebee.nbt.NBeeT;
+import tk.shanebee.nbt.config.BoundConfig;
 import tk.shanebee.nbt.elements.objects.Bound;
 import tk.shanebee.nbt.event.EnterBoundEvent;
 import tk.shanebee.nbt.event.ExitBoundEvent;
 
 public class BoundBorderListener implements Listener {
+
+    private BoundConfig boundConfig;
+
+    public BoundBorderListener(NBeeT plugin) {
+        this.boundConfig = plugin.getBoundConfig();
+    }
 
     @EventHandler
     private void onBoundBorder(PlayerMoveEvent event) {
@@ -21,7 +28,7 @@ public class BoundBorderListener implements Listener {
         if (to == null || to.equals(from)) {
             return;
         }
-        for (Bound bound : NBeeT.getInstance().getBounds()) {
+        for (Bound bound : boundConfig.getBounds()) {
             if (bound.isInRegion(to) && !bound.isInRegion(from)) {
                 EnterBoundEvent enterEvent = new EnterBoundEvent(bound, player);
                 Bukkit.getPluginManager().callEvent(enterEvent);

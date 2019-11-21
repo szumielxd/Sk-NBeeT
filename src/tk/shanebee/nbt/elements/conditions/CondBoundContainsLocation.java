@@ -12,11 +12,16 @@ import ch.njol.util.Kleenean;
 import org.bukkit.Location;
 import org.bukkit.event.Event;
 import tk.shanebee.nbt.elements.objects.Bound;
+import tk.shanebee.nbt.elements.objects.OldBound;
 
-@Name("Bounding Box Contains Location")
+@Name("Bound - Contains Location")
 @Description("Check if a location is within the bounds of a bounding box.")
-@Examples({"on break:", "\tif location of event-block is within bound {bound}:", "\t\tcancel event", "",
-        "on damage of a player:", "\tif victim is within {bound}:", "\t\tcancel event"})
+@Examples({"on break:",
+        "\tif location of event-block is within bound with id \"spawn.bound\":",
+        "\t\tcancel event", "",
+        "on damage of a player:",
+        "\tif victim is within bound {spawn}:",
+        "\t\tcancel event"})
 @Since("2.6.0")
 public class CondBoundContainsLocation extends Condition {
 
@@ -46,4 +51,5 @@ public class CondBoundContainsLocation extends Condition {
         return PropertyCondition.toString(this, PropertyCondition.PropertyType.BE, e, d, locations,
                 "in the bound " + bound.toString(e, d));
     }
+
 }

@@ -7,11 +7,13 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.BoundingBox;
+import tk.shanebee.nbt.NBeeT;
 
 import java.util.*;
 
 @SuppressWarnings("unused")
-public class Bound implements ConfigurationSerializable {
+@Deprecated
+public class OldBound implements ConfigurationSerializable {
 
     private int x;
     private int y;
@@ -20,7 +22,6 @@ public class Bound implements ConfigurationSerializable {
     private int y2;
     private int z2;
     private String world;
-    private String id;
 
     /** Create a new bounding box between 2 sets of coordinates
      * @param world World this bound is in
@@ -31,7 +32,7 @@ public class Bound implements ConfigurationSerializable {
      * @param y2 y coord of 2nd corner of bound
      * @param z2 z coord of 2nd corner of bound
      */
-    public Bound(String world, int x, int y, int z, int x2, int y2, int z2, String id) {
+    public OldBound(String world, int x, int y, int z, int x2, int y2, int z2) {
         this.world = world;
         this.x = Math.min(x, x2);
         this.y = Math.min(y, y2);
@@ -39,22 +40,22 @@ public class Bound implements ConfigurationSerializable {
         this.x2 = Math.max(x, x2);
         this.y2 = Math.max(y, y2);
         this.z2 = Math.max(z, z2);
-        this.id = id;
+        NBeeT.getInstance().getBounds().add(this);
     }
 
     /** Create a new bounding box between 2 locations (must be in same world)
      * @param location Location 1
      * @param location2 Location 2
      */
-    public Bound(Location location, Location location2, String id) {
+    public OldBound(Location location, Location location2) {
         this(Objects.requireNonNull(location.getWorld()).getName(), location.getBlockX(), location.getBlockY(),
-                location.getBlockZ(), location2.getBlockX(), location2.getBlockY(), location2.getBlockZ(), id);
+                location.getBlockZ(), location2.getBlockX(), location2.getBlockY(), location2.getBlockZ());
     }
 
     /** Create a bounding box based on a serialized string from {@link #toString()}
      * @param string String to create a new bound from
      */
-    public Bound(String string) {
+    public OldBound(String string) {
         String[] coords = string.split(":");
         this.world = coords[0];
         this.x = Integer.parseInt(coords[1]);
@@ -63,7 +64,7 @@ public class Bound implements ConfigurationSerializable {
         this.x2 = Integer.parseInt(coords[4]);
         this.y2 = Integer.parseInt(coords[5]);
         this.z2 = Integer.parseInt(coords[6]);
-        this.id = coords[7];
+        NBeeT.getInstance().getBounds().add(this);
     }
 
     /** Check if a location is within the region of this bound
@@ -83,7 +84,7 @@ public class Bound implements ConfigurationSerializable {
      * @return ArrayList of locations of all blocks of this type in this bound
      */
     @SuppressWarnings("unused")
-    public List<Location> getBlocks(Material type) {
+    public ArrayList<Location> getBlocks(Material type) {
         World w = Bukkit.getWorld(world);
         ArrayList <Location> array = new ArrayList<>();
         for (int x3 = x; x3 <= x2; x3++) {
@@ -199,12 +200,11 @@ public class Bound implements ConfigurationSerializable {
         this.z2 = z2;
     }
 
-    public String getId() {
-        return id;
-    }
-
+    /** Serialize this bound into a string
+     * @return String including world and coordinates
+     */
     public String toString() {
-        return this.id;
+        return "" + world + ":" + x + ":" + y + ":" + z + ":" + x2 + ":" + y2 + ":" + z2;
     }
 
     /** Serialize this bound into yaml configuration
@@ -222,7 +222,6 @@ public class Bound implements ConfigurationSerializable {
         result.put("x2", x2);
         result.put("y2", y2);
         result.put("z2", z2);
-        result.put("id", id);
 
         return result;
     }
@@ -231,7 +230,7 @@ public class Bound implements ConfigurationSerializable {
      * @param args Args from yaml
      * @return New bound from serialized yaml configuration
      */
-    public static Bound deserialize(Map<String, Object> args) {
+    public static OldBound deserialize(Map<String, Object> args) {
         String world = ((String) args.get("world"));
         int x = ((Number) args.get("x1")).intValue();
         int y = ((Number) args.get("y1")).intValue();
@@ -239,9 +238,8 @@ public class Bound implements ConfigurationSerializable {
         int x2 = ((Number) args.get("x2")).intValue();
         int y2 = ((Number) args.get("y2")).intValue();
         int z2 = ((Number) args.get("z2")).intValue();
-        String id = String.valueOf(args.get("id"));
 
-        return new Bound(world, x, y, z, x2, y2, z2, id);
+        return new OldBound(world, x, y, z, x2, y2, z2);
     }
 
 }

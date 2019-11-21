@@ -4,8 +4,10 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import tk.shanebee.nbt.config.BoundConfig;
 import tk.shanebee.nbt.elements.objects.Bound;
 import tk.shanebee.nbt.listener.BoundBorderListener;
 import tk.shanebee.nbt.nms.NBTApi;
@@ -14,17 +16,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class NBeeT extends JavaPlugin {
+
+    static {
+        ConfigurationSerialization.registerClass(Bound.class, "Bound");
+    }
 
     private static NBeeT instance;
     private static NBTApi nbtApi;
     private PluginDescriptionFile desc = getDescription();
-    private List<Bound> bounds = new ArrayList<>();
+    private List<tk.shanebee.nbt.elements.objects.OldBound> bounds = new ArrayList<>();
+    private BoundConfig boundConfig;
 
     @Override
     public void onEnable() {
         instance = this;
+
         if ((Bukkit.getPluginManager().getPlugin("Skript") != null) && (Skript.isAcceptRegistrations())) {
+            long start = System.currentTimeMillis();
+            this.boundConfig = new BoundConfig(this);
+            int boundSize = boundConfig.getBounds().size();
+            if (boundSize > 0) {
+                sendColConsole("Loaded &b" + boundSize + "&7 bounds in " + (System.currentTimeMillis() - start) + " milliseconds.");
+            }
+
             String nms = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
             SkriptAddon addon = Skript.registerAddon(this);
             try {
@@ -52,12 +68,11 @@ public class NBeeT extends JavaPlugin {
             sendColConsole("&cDependency Skript was not found, plugin disabling");
             Bukkit.getPluginManager().disablePlugin(this);
         }
-        Bukkit.getPluginManager().registerEvents(new BoundBorderListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BoundBorderListener(this), this);
     }
 
     @Override
     public void onDisable() {
-        //this.task.cancel();
     }
 
     public static NBeeT getInstance() {
@@ -68,8 +83,12 @@ public class NBeeT extends JavaPlugin {
         return nbtApi;
     }
 
-    public List<Bound> getBounds() {
+    public List<tk.shanebee.nbt.elements.objects.OldBound> getBounds() {
         return this.bounds;
+    }
+
+    public BoundConfig getBoundConfig() {
+        return boundConfig;
     }
 
     public void sendColConsole(String message) {

@@ -12,7 +12,7 @@ import tk.shanebee.nbt.event.ExitBoundEvent;
 public class SimpleEvents {
 
     static {
-        Skript.registerEvent("Bound Enter", SimpleEvent.class, EnterBoundEvent.class, "bound enter")
+        Skript.registerEvent("Bound - Enter", SimpleEvent.class, EnterBoundEvent.class, "bound enter")
                 .description("Called when a player enters a bound")
                 .examples("on bound enter:", "\tif event-bound = {bounds::spawn}:", "\t\tsend \"You entered spawn!\"")
                 .since("2.7.0");
@@ -30,7 +30,7 @@ public class SimpleEvents {
         }, 0);
 
 
-        Skript.registerEvent("Bound Exit", SimpleEvent.class, ExitBoundEvent.class, "bound exit")
+        Skript.registerEvent("Bound - Exit", SimpleEvent.class, ExitBoundEvent.class, "bound exit")
                 .description("Called when a player exits a bound")
                 .examples("on bound exit:", "\tsend \"You left a bound\"", "\tif event-bound = {bound}:", "\t\tsend \"You left Spawn!\"")
                 .since("2.7.0");
