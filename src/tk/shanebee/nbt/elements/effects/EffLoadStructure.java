@@ -19,17 +19,20 @@ import org.bukkit.Location;
 import org.bukkit.event.Event;
 
 @Name("Structure Block: Load")
-@Description("Load structure block structures that are saved on your server. 1.9.4+ ONLY")
+@Description("Load structure block structures that are saved on your server. " +
+        "Optional values for rotation, mirroring and the inclusion of entities. 1.9.4+ ONLY")
 @Examples({"load \"house\" at location of player", "load \"barn\" at location 10 infront of player",
-        "paste \"house\" at location of player with rotation 90 and with mirror left to right"})
+        "paste \"house\" at location of player with rotation 90 and with mirror left to right",
+        "load \"sheep_pen\" at location below player with rotation 180 and with entities"})
 @Since("2.2.0")
 public class EffLoadStructure extends Effect {
 
     static {
         if (Skript.isRunningMinecraft(1, 9, 4)) {
-            Skript.registerEffect(EffLoadStructure.class, "(load|paste) [structure] %string% at %location% [with rotation (0¦0|1¦90|2¦180|3¦270)]",
-                    "(load|paste) [structure] %string% at %location% [with rotation (0¦0|1¦90|2¦180|3¦270)] [and] [with] mirror front to back",
-                    "(load|paste) [structure] %string% at %location% [with rotation (0¦0|1¦90|2¦180|3¦270)] [and] [with] mirror left to right");
+            Skript.registerEffect(EffLoadStructure.class,
+                    "(load|paste) [structure] %string% at %location% [with rotation (0¦0|1¦90|2¦180|3¦270)] [(|5¦[and] with entities)]",
+                    "(load|paste) [structure] %string% at %location% [with rotation (0¦0|1¦90|2¦180|3¦270)] [and] [with] mirror front to back [(|5¦[and] with entities)]",
+                    "(load|paste) [structure] %string% at %location% [with rotation (0¦0|1¦90|2¦180|3¦270)] [and] [with] mirror left to right [(|5¦[and] with entities)]");
         }
     }
 
@@ -38,6 +41,7 @@ public class EffLoadStructure extends Effect {
     private Expression<Location> loc;
     private int rotate = 0;
     private int mirror;
+    private boolean withEntities;
 
     @SuppressWarnings({"unchecked", "null"})
     @Override
@@ -46,6 +50,7 @@ public class EffLoadStructure extends Effect {
         loc = (Expression<Location>) exprs[1];
         rotate = parseResult.mark;
         mirror = i;
+        withEntities = rotate == 5 || rotate == 4 || rotate == 7 || rotate == 6;
         return true;
     }
 
@@ -56,15 +61,19 @@ public class EffLoadStructure extends Effect {
         final StructureSaveConfiguration saveConfig = service.createSaveConfiguration("minecraft", name.getSingle(event), world);
         switch (rotate) {
             case 0:
+            case 5:
                 saveConfig.setRotation(StructureRotation.NONE);
                 break;
             case 1:
+            case 4:
                 saveConfig.setRotation(StructureRotation.ROTATION_90);
                 break;
             case 2:
+            case 7:
                 saveConfig.setRotation(StructureRotation.ROTATION_180);
                 break;
             case 3:
+            case 6:
                 saveConfig.setRotation(StructureRotation.ROTATION_270);
         }
         switch (mirror) {
@@ -77,7 +86,11 @@ public class EffLoadStructure extends Effect {
             case 2:
                 saveConfig.setMirror(StructureMirror.LEFT_RIGHT);
         }
+        saveConfig.setIgnoreEntities(!withEntities);
         boolean structureExists = service.load(saveConfig, loc.getSingle(event));
+        if (!structureExists) {
+            Skript.error("Structure " + name.toString(event, true) + " does not exist!");
+        }
     }
 
     @Override

@@ -47,6 +47,7 @@ public class EffSaveStructure extends Effect {
         PersistenceStructureService service = StructureBlockApi.INSTANCE.getStructurePersistenceService();
         String world = Bukkit.getServer().getWorlds().get(0).getName();
         final StructureSaveConfiguration saveConfig = service.createSaveConfiguration("minecraft", name.getSingle(event), world);
+        saveConfig.setIgnoreEntities(false);
         service.save(saveConfig, loc1.getSingle(event), loc2.getSingle(event));
     }
 
