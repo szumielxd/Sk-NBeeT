@@ -22,7 +22,7 @@ public class CondHasCustomModelData extends PropertyCondition<ItemStack> {
 
     @Override
     public boolean check(ItemStack itemStack) {
-        assert itemStack.getItemMeta() != null;
+        if (itemStack.getItemMeta() == null) return false;
         return itemStack.getItemMeta().hasCustomModelData();
     }
 

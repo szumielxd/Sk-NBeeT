@@ -28,7 +28,7 @@ public class ExprCustomModelData extends SimplePropertyExpression<ItemStack, Lon
     @SuppressWarnings("null")
     @Override
     public Long convert(ItemStack itemStack) {
-        assert itemStack.getItemMeta() != null;
+        if (itemStack.getItemMeta() == null) return null;
         if (itemStack.getItemMeta().hasCustomModelData())
             return (long) itemStack.getItemMeta().getCustomModelData();
         else
