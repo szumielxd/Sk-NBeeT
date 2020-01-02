@@ -17,10 +17,12 @@ import tk.shanebee.nbt.nms.NBTApi;
 import javax.annotation.Nullable;
 
 @Name("NBT - Tag")
-@Description("Returns the value of the specified tag of the specified NBT (Currently only supports get. Set may be available in the future")
+@Description("Returns the value of the specified tag of the specified NBT. Also supports getting nested tags. " +
+        "(Currently only supports get. Set may be available in the future)")
 @Examples({"set {_tag} to tag \"Invulnerable\" of targeted entity's nbt",
         "send \"Tag: %tag \"\"CustomName\"\" of nbt of target entity%\" to player",
-        "set {_tag} to \"Enchantments\" tag of nbt of player's tool"})
+        "set {_tag} to \"Enchantments\" tag of nbt of player's tool",
+        "set {_tag} to \"BlockEntityTag.Items\" tag of nbt of target block"})
 @Since("1.0.0")
 public class ExprTagOfNBT extends SimpleExpression<String> {
 
@@ -46,6 +48,9 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
         NBTApi api = NBeeT.getNBTApi();
         String t = a.getSingle(e);
         String n = b.getSingle(e);
+        if (t.contains(".")) {
+            return getFromList(t, n);
+        }
         return api.getNBTTag(t, n);
     }
 
@@ -62,6 +67,16 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
     @Override
     public Class<? extends String> getReturnType() {
         return String.class;
+    }
+
+    private String[] getFromList(String tag, String nbt) {
+        NBTApi api = NBeeT.getNBTApi();
+        String[] split = tag.split("\\.");
+        String nbtNew = nbt;
+        for (String s : split) {
+            nbtNew = api.getNBTTag(s, nbtNew)[0];
+        }
+        return new String[]{nbtNew};
     }
 
 }
