@@ -1,4 +1,4 @@
-package tk.shanebee.nbt.elements.expressions;
+package tk.shanebee.nbt.elementsNBT.expressions;
 
 import ch.njol.skript.aliases.ItemType;
 import ch.njol.skript.classes.Changer.ChangeMode;

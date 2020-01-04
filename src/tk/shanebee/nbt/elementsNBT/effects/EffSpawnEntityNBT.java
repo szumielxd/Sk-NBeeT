@@ -1,4 +1,4 @@
-package tk.shanebee.nbt.elements.effects;
+package tk.shanebee.nbt.elementsNBT.effects;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;

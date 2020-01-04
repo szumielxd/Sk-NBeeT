@@ -1,4 +1,4 @@
-package tk.shanebee.nbt.elements.expressions;
+package tk.shanebee.nbt.elementsNBT.expressions;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;

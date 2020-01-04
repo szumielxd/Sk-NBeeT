@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "SpellCheckingInspection"})
 public class NBeeT extends JavaPlugin {
 
     static {
@@ -45,12 +45,19 @@ public class NBeeT extends JavaPlugin {
             SkriptAddon addon = Skript.registerAddon(this);
             try {
                 nbtApi = (NBTApi) Class.forName(NBeeT.class.getPackage().getName() + ".nms.NBT_" + nms).newInstance();
+                try {
+                    addon.loadClasses("tk.shanebee.nbt", "elementsNBT");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Bukkit.getPluginManager().disablePlugin(this);
+                    return;
+                }
                 sendColConsole("&bCompatible NMS version: " + nms);
+                sendColConsole("&7  - All NBT related syntaxes loaded.");
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                sendColConsole("&cSk-NBeeT is not supported on this version [" +
-                        ChatColor.AQUA + nms + ChatColor.RED + "] and will now be disabled");
-                Bukkit.getPluginManager().disablePlugin(this);
-                return;
+                sendColConsole("&cIncompatible NMS version found: &7" + nms);
+                sendColConsole("&7  - NBT syntaxes not supported on your server version.");
+                sendColConsole("&7  - The plugin will still work for all non NBT related syntaxes.");
             }
             try {
                 addon.loadClasses("tk.shanebee.nbt", "elements");
