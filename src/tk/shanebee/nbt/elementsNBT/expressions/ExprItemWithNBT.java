@@ -45,7 +45,7 @@ public class ExprItemWithNBT extends PropertyExpression<ItemType, ItemType> {
         NBTApi api = NBeeT.getNBTApi();
         String nbt = this.nbt.getSingle(e);
         return get(source, item -> {
-            api.setNBT(item, nbt);
+            api.addNBT(item, nbt);
             return item;
         });
     }
