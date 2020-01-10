@@ -60,8 +60,8 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
     }
 
     @Override
-    public String toString(@Nullable Event event, boolean debug) {
-        return "Tag of NBT";
+    public String toString(@Nullable Event e, boolean d) {
+        return "Tag \"" + a.toString(e, d) + "\" of NBT " + b.toString(e, d);
     }
 
     @Override

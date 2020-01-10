@@ -49,8 +49,8 @@ public class ExprJoinedNBT extends SimpleExpression<String> {
     }
 
     @Override
-    public String toString(@Nullable Event event, boolean debug) {
-        return "Joined NBT";
+    public String toString(@Nullable Event e, boolean d) {
+        return "Joined NBT from string[s] " + a.toString(e, d);
     }
 
     @Override
