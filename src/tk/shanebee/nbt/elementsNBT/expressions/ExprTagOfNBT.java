@@ -17,7 +17,7 @@ import tk.shanebee.nbt.nms.NBTApi;
 import javax.annotation.Nullable;
 
 @Name("NBT - Tag")
-@Description("Returns the value of the specified tag of the specified NBT. Also supports getting nested tags. " +
+@Description("Returns the value of the specified tag of the specified NBT. Also supports getting nested tags (version 2.9.1+). " +
         "(Currently only supports get. Set may be available in the future)")
 @Examples({"set {_tag} to tag \"Invulnerable\" of targeted entity's nbt",
         "send \"Tag: %tag \"\"CustomName\"\" of nbt of target entity%\" to player",
