@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import tk.shanebee.nbt.config.BoundConfig;
 import tk.shanebee.nbt.elements.objects.Bound;
 import tk.shanebee.nbt.listener.BoundBorderListener;
+import tk.shanebee.nbt.metrics.Metrics;
 import tk.shanebee.nbt.nms.NBTApi;
 
 import java.io.IOException;
@@ -76,10 +77,16 @@ public class NBeeT extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
         }
         Bukkit.getPluginManager().registerEvents(new BoundBorderListener(this), this);
+        loadMetrics();
     }
 
     @Override
     public void onDisable() {
+    }
+
+    private void loadMetrics() {
+        Metrics metrics = new Metrics(this);
+        metrics.addCustomChart(new Metrics.SimplePie("skript_version", () -> Skript.getVersion().toString()));
     }
 
     public static NBeeT getInstance() {
