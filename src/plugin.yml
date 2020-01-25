@@ -1,6 +1,6 @@
 main: tk.shanebee.nbt.NBeeT
 name: SK-NBeeT
-version: 2.9.3
+version: 2.10.0
 authors: [jaylawl, ShaneBee]
 description: Provides NBT usages within Skript
 website: https://github.com/ShaneBeee/Sk-NBeeT
