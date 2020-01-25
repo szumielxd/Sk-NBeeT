@@ -22,18 +22,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Name("Block Data")
+@Name("Block Data - Block")
 @Description({"Get block data from a block. You can get a string of block data, all the tags in a block data or a specific tag. ",
         "You can also set a block data for a block or set a specific tag for block data. This syntax is only available for MC 1.13+"})
 @Examples({"set {_data} to block data of target block of player", "set {_data::*} to block data tags of target block of player",
         "set {_water} to block data tag \"waterlogged\" of event-block", "set block data of target block to \"minecraft:carrots[age=7]\"",
         "set block data tag \"waterlogged\" of event-block to true"})
 @Since("2.9.0")
-public class ExprBlockData extends SimpleExpression<Object> {
+public class ExprBlockDataBlock extends SimpleExpression<Object> {
 
     static {
         if (Skript.isRunningMinecraft(1, 13)) {
-            PropertyExpression.register(ExprBlockData.class, Object.class,
+            PropertyExpression.register(ExprBlockDataBlock.class, Object.class,
                     "block[ ]data [(1¦tags|2¦tag %-string%)]", "blocks");
         }
     }
