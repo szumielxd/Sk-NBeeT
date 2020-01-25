@@ -26,12 +26,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @Name("Block Data - Item")
-@Description({"Get block data from a item. You can get a string of block data, all the tags in a block data or a specific tag. ",
+@Description({"Get block data from an item. You can get a string of block data, all the tags in a block data or a specific tag. ",
         "You can also set a block data for an item or set a specific tag for block data. This syntax is only available for MC 1.14+"})
 @Examples({"set item data of player's tool to block data of target block",
         "set item data of player's tool to \"minecraft:campfire[lit=false,waterlogged=true]\"",
         "set item data tag \"lit\" of player's tool to false"})
-@Since("INSERT VERSION")
+@Since("2.10.0")
 public class ExprBlockDataItem extends SimpleExpression<Object> {
 
     static {
