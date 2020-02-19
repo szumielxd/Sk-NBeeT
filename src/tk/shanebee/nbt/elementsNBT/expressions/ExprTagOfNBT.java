@@ -17,7 +17,8 @@ import tk.shanebee.nbt.nms.NBTApi;
 import javax.annotation.Nullable;
 
 @Name("NBT - Tag")
-@Description("Returns the value of the specified tag of the specified NBT. Also supports getting nested tags (version 2.9.1+). " +
+@Description("Returns the value of the specified tag of the specified NBT. " +
+        "Also supports getting nested tags using a semi colon as a delimiter (version 2.11.1+). " +
         "(Currently only supports get. Set may be available in the future)")
 @Examples({"set {_tag} to tag \"Invulnerable\" of targeted entity's nbt",
         "send \"Tag: %tag \"\"CustomName\"\" of nbt of target entity%\" to player",
@@ -27,8 +28,8 @@ import javax.annotation.Nullable;
 public class ExprTagOfNBT extends SimpleExpression<String> {
 
     static {
-        Skript.registerExpression(ExprTagOfNBT.class, String.class, ExpressionType.SIMPLE, "tag %string% of %string%", "" +
-                "%string% tag of %string%");
+        Skript.registerExpression(ExprTagOfNBT.class, String.class, ExpressionType.SIMPLE,
+                "tag %string% of %string%", "%string% tag of %string%");
     }
 
     private Expression<String> a;
@@ -48,8 +49,8 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
         NBTApi api = NBeeT.getNBTApi();
         String t = a.getSingle(e);
         String n = b.getSingle(e);
-        if (t.contains(".")) {
-            return getFromList(t, n);
+        if (t.contains(";")) {
+            return getNested(t, n);
         }
         return api.getNBTTag(t, n);
     }
@@ -61,7 +62,7 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
 
     @Override
     public String toString(@Nullable Event e, boolean d) {
-        return "Tag \"" + a.toString(e, d) + "\" of NBT " + b.toString(e, d);
+        return "Tag \"" + a.toString(e, d) + "\" of " + b.toString(e, d);
     }
 
     @Override
@@ -69,9 +70,9 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
         return String.class;
     }
 
-    private String[] getFromList(String tag, String nbt) {
+    private String[] getNested(String tag, String nbt) {
         NBTApi api = NBeeT.getNBTApi();
-        String[] split = tag.split("\\.");
+        String[] split = tag.split(";");
         String nbtNew = nbt;
         for (String s : split) {
             nbtNew = api.getNBTTag(s, nbtNew)[0];
