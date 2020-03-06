@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 @Examples({"set {_tag} to tag \"Invulnerable\" of targeted entity's nbt",
         "send \"Tag: %tag \"\"CustomName\"\" of nbt of target entity%\" to player",
         "set {_tag} to \"Enchantments\" tag of nbt of player's tool",
-        "set {_tag} to \"BlockEntityTag.Items\" tag of nbt of target block"})
+        "set {_tag} to \"BlockEntityTag;Items\" tag of nbt of target block"})
 @Since("1.0.0")
 public class ExprTagOfNBT extends SimpleExpression<String> {
 
