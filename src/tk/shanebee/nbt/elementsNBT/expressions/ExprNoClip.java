@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 
 @Name("Entity NoClip")
 @Description("Set or get the noClip status of an entity (This will not work on players)")
-@Examples({"spawn a zombie at player", "set not clip state of last spawned zombie to true",
+@Examples({"spawn a zombie at player", "set no clip state of last spawned zombie to true",
         "set {_var} to no clip state of last spawned sheep",
         "loop all entities in radius 5 around player:", "\tset no clip state of loop-entity to true", "\tpush loop-entity up with speed 5"})
 @Since("1.2.4")
