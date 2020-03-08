@@ -1,4 +1,8 @@
 # Sk-NBeeT
+**IMPORTANT**
+Sk-NBeeT is now deprecated and will no longer be receiving any updates.   
+The elements from this addon have been merged into my new addon [**SkBee**](https://github.com/ShaneBeee/SkBee)
+   
 Provides NBT usages within Skript
 
 ![GitHub release](https://img.shields.io/github/release/ShaneBeee/Sk-NBeeT.svg?style=for-the-badge)
